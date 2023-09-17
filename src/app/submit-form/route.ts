@@ -1,11 +1,9 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<any>
-) {
-  res.status(200).json(req);
+export const GET = (req: NextRequest) => {
+  
+  return NextResponse.json({message:'hello DevFirm Team '})
 }
 
