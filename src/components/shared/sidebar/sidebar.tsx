@@ -42,6 +42,8 @@ import settingIconActive from "@/assets/sidebarIconsActive/setting.svg";
 
 import logoutIcon from "@/assets/sidebarIcons/logout.svg";
 import logoutIconActive from "@/assets/sidebarIconsActive/logout.svg";
+
+import logo from "@/assets/logo.svg";
 // images import end
 
 import Image from "next/image";
@@ -138,7 +140,7 @@ const Sidebar = () => {
     <div className="w-[345px] py-8  rounded-[20px] bg-primary space-y-7">
       {/* logo here */}
       <div className="flex items-center justify-center text-4xl font-medium">
-        Logo
+        <Image src={logo} alt='logo' width={80} height={45} className="w-32" />
       </div>
       {/* menu here */}
       <div className="pl-11 w-full">
