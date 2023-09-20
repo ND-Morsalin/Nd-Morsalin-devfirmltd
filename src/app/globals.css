@@ -12,3 +12,8 @@
 .react-datepicker__day-name:last-child {
   color: #f36a6a;
 }
+
+
+.option-container{
+  @apply absolute left-0 top-[calc(100%+1.5rem)] w-[295px] py-5 px-4 max-h-[330px] overflow-auto bg-white shadow-xl  rounded-lg border opacity-0 invisible transform scale-0 duration-300 group-hover:opacity-100 group-hover:visible group-hover:scale-100 z-20;
+}
