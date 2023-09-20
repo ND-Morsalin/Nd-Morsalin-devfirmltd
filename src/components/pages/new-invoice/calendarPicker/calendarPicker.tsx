@@ -4,7 +4,7 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-const CalendarPicker = () => {
+const CalendarPicker = ({ dispatch }: { dispatch: Function }) => {
   const [startDate, setStartDate] = useState<Date>();
 
   const isWeekday = (date: Date) => {
@@ -28,11 +28,16 @@ const CalendarPicker = () => {
     0
   );
 
+  // handle date change
+
   return (
     <div>
       <DatePicker
         selected={startDate}
-        onChange={(date: Date) => setStartDate(date)}
+        onChange={(date: Date) => {
+          setStartDate(date);
+          dispatch({ type: "date", payload: date });
+        }}
         placeholderText=" Select date"
         className="focus:outline-none "
         filterDate={isWeekday}

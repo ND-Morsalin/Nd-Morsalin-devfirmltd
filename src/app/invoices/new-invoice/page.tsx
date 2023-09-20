@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import calendarIcon from "@/assets/icons/calender.svg";
 import arrowDown from "@/assets/icons/arrowDown.svg";
@@ -5,8 +6,68 @@ import searchIon from "@/assets/icons/searchIcon.svg";
 import CalendarPicker from "@/components/pages/new-invoice/calendarPicker/calendarPicker";
 import ImageUpload from "@/components/pages/new-invoice/imageUpload/imageUpload";
 import ProductRow from "@/components/pages/new-invoice/productRow/productRow";
+import { InvoiceType } from "@/type/type";
+import { Key, useEffect, useReducer } from "react";
+
+const initialState: InvoiceType = {
+  client: "",
+  date: new Date(),
+  trip: "",
+  planeImage: "",
+  products: [
+    {
+      productType: "",
+      name: "Falcon8X TBA/LTI",
+      description: "",
+      price: 0,
+    },
+  ],
+};
+
+const reducer = (state: InvoiceType, action: any) => {
+  switch (action.type) {
+    case "client":
+      return { ...state, client: action.payload };
+    case "date":
+      return { ...state, date: action.payload };
+    case "trip":
+      console.log(action);
+      return { ...state, trip: action.payload };
+    case "planeImage":
+      return { ...state, planeImage: action.payload };
+    case "products":
+      return { ...state, products: action.payload };
+    default:
+      return state;
+  }
+};
 
 const NewInvoice = () => {
+  const [invoiceState, dispatch] = useReducer(reducer, initialState);
+  const handleEmptyNewProduct = () => {
+    const newProduct = {
+      productType: "",
+      name: "",
+      description: "",
+      price: 0,
+    };
+    dispatch({
+      type: "products",
+      payload: [...invoiceState.products, newProduct],
+    });
+  };
+
+  // delete added product
+  const handleDeleteProduct = (index: number) => {
+    const newProducts = invoiceState.products.filter(
+      (product: any, i: number) => i !== index
+    );
+    dispatch({ type: "products", payload: newProducts });
+  };
+useEffect(()=>{
+  console.log(invoiceState)
+
+},[invoiceState])
   return (
     <div className="w-full space-y-8">
       {/* page title */}
@@ -31,7 +92,11 @@ const NewInvoice = () => {
                   Select
                 </label>
                 <div className="px-5 py-4 rounded-full border relative flex items-center w-full justify-between group">
-                  <p className="text-[#84878B] text-sm ">Select Client</p>
+                  <p className="text-[#84878B] text-sm ">
+                    {invoiceState.client
+                      ? `${invoiceState.client}`
+                      : "Select client"}
+                  </p>
 
                   {/* arrow icon */}
                   <Image
@@ -61,16 +126,36 @@ const NewInvoice = () => {
 
                     {/* options */}
                     <div className="mt-5 space-y-5">
-                      <button className="text-[#84878B] block text-lg">
+                      <button
+                        onClick={() =>
+                          dispatch({ type: "client", payload: "Client 1" })
+                        }
+                        className="text-[#84878B] block text-lg"
+                      >
                         Select Client 1
                       </button>
-                      <button className="text-[#84878B] block text-lg">
+                      <button
+                        onClick={() =>
+                          dispatch({ type: "client", payload: "Client 2" })
+                        }
+                        className="text-[#84878B] block text-lg"
+                      >
                         Select Client 2
                       </button>
-                      <button className="text-[#84878B] block text-lg">
+                      <button
+                        onClick={() =>
+                          dispatch({ type: "client", payload: "Client 3" })
+                        }
+                        className="text-[#84878B] block text-lg"
+                      >
                         Select Client 3
                       </button>
-                      <button className="text-[#84878B] block text-lg">
+                      <button
+                        onClick={() =>
+                          dispatch({ type: "client", payload: "Client 4" })
+                        }
+                        className="text-[#84878B] block text-lg"
+                      >
                         Select Client 4
                       </button>
                     </div>
@@ -88,7 +173,7 @@ const NewInvoice = () => {
                 </label>
                 <label htmlFor="invoice-date" className="">
                   <div className="px-5 py-4 rounded-full border flex items-center justify-between">
-                    <CalendarPicker />
+                    <CalendarPicker dispatch={dispatch} />
 
                     <Image
                       src={calendarIcon}
@@ -112,7 +197,11 @@ const NewInvoice = () => {
               </label>
               <div className="px-5 py-4 rounded-full border relative flex items-center w-full justify-between">
                 {/* trip value */}
-                <p className="text-[#84878B] text-sm ">T2390</p>
+                <p className="text-[#84878B] text-sm ">
+                {invoiceState.trip
+                      ? `${invoiceState.trip}`
+                      : "Select trip"}
+                </p>
 
                 {/* arrow icon */}
                 <Image
@@ -144,17 +233,37 @@ const NewInvoice = () => {
 
                   {/* options */}
                   <div className="mt-5 space-y-5">
-                    <button className="text-[#84878B] block text-lg">
-                      T2390
+                    <button
+                      onClick={() =>
+                        dispatch({ type: "trip", payload: "T2391" })
+                      }
+                      className="text-[#84878B] block text-lg"
+                    >
+                      T2391
                     </button>
-                    <button className="text-[#84878B] block text-lg">
-                      T2390
+                    <button
+                      onClick={() =>
+                        dispatch({ type: "trip", payload: "T234390" })
+                      }
+                      className="text-[#84878B] block text-lg"
+                    >
+                      T234390
                     </button>
-                    <button className="text-[#84878B] block text-lg">
-                      T2390
+                    <button
+                      onClick={() =>
+                        dispatch({ type: "trip", payload: "T23rw90" })
+                      }
+                      className="text-[#84878B] block text-lg"
+                    >
+                      T23rw90
                     </button>
-                    <button className="text-[#84878B] block text-lg">
-                      T2390
+                    <button
+                      onClick={() =>
+                        dispatch({ type: "trip", payload: "T2390rw" })
+                      }
+                      className="text-[#84878B] block text-lg"
+                    >
+                      T2390rw
                     </button>
                   </div>
                 </div>
@@ -180,10 +289,10 @@ const NewInvoice = () => {
 
       {/* product  */}
       <div className="p-8 bg-white rounded-lg ">
-        <div className=" overflow-x-auto  ">
+        <div className="  ">
           <div className="flex flex-col w-full py-10 bg-white rounded-lg">
             <div className="">
-              <div className="overflow-x-auto min-w-full py-2">
+              <div className="min-w-full py-2">
                 <div className="">
                   <table className="min-w-full overflow-auto font-medium ">
                     <thead className="border-b py-5 text-base text-start font-semibold text-[#3B3E44] ">
@@ -221,11 +330,20 @@ const NewInvoice = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {Array(1)
-                        .fill(0)
-                        .map((_, i) => (
-                          <ProductRow key={i} />
-                        ))}
+                      {invoiceState.products.map(
+                        (
+                          product: any,
+                          index:  string | number | null | undefined
+                        ) => (
+                          <ProductRow
+                            key={index}
+                            id={index}
+                            handleDeleteProduct={handleDeleteProduct}
+                            dispatch={dispatch}
+                            invoiceState={invoiceState}
+                          />
+                        )
+                      )}
                     </tbody>
                   </table>
                 </div>
@@ -235,7 +353,12 @@ const NewInvoice = () => {
         </div>
 
         {/* + Add Product */}
-        <button className="mt-20 text-primary mb-5">+ Add Product</button>
+        <button
+          onClick={handleEmptyNewProduct}
+          className="mt-20 text-primary mb-5"
+        >
+          + Add Product
+        </button>
         <hr />
         {/* sub total */}
         <div className="ml-auto space-y-3 w-fit py-4">
@@ -255,16 +378,19 @@ const NewInvoice = () => {
 
         <div className="py-4 flex items-center justify-between">
           <div className="flex items-center gap-4 ">
+            <button className="py-4 px-12 rounded-full bg-primary text-white text-lg font-semibold border border-[#84878B] ">
+              Save
+            </button>
+            <button className="py-4 px-12 rounded-full  text-[#84878B] text-lg font-semibold border border-[#84878B] ">
+              cancle
+            </button>
 
-            <button className="py-4 px-12 rounded-full bg-primary text-white text-lg font-semibold border border-[#84878B] ">Save</button>
-            <button className="py-4 px-12 rounded-full  text-[#84878B] text-lg font-semibold border border-[#84878B] ">cancle</button>
-
-            <button className="py-4 px-12 rounded-full bg-primary text-white text-lg font-semibold border border-[#84878B] ">Download Invoice</button>
+            <button className="py-4 px-12 rounded-full bg-primary text-white text-lg font-semibold border border-[#84878B] ">
+              Download Invoice
+            </button>
           </div>
           <div className="grid grid-cols-2 gap-x-8">
-          <p className="text-primary text-lg font-semibold text-end">
-              TVA :
-            </p>
+            <p className="text-primary text-lg font-semibold text-end">TVA :</p>
             <p className="text-primary text-lg font-medium">$ 0.00</p>
           </div>
         </div>

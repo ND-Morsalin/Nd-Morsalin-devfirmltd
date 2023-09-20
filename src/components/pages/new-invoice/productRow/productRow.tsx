@@ -1,17 +1,45 @@
 import Image from "next/image";
-import React from "react";
+import React, { FC, useEffect, useState } from "react";
 import arrowDown from "@/assets/icons/arrowDown.svg";
 import searchIon from "@/assets/icons/searchIcon.svg";
 import deleteIcon from "@/assets/icons/deleteIcon.svg";
+import { InvoiceType, ProductType } from "@/type/type";
 
-const ProductRow = () => {
+interface ProductRowProps {
+  id: string | number | null | undefined;
+  handleDeleteProduct: Function;
+  dispatch: Function;
+  invoiceState: InvoiceType;
+}
+
+const ProductRow: FC<ProductRowProps> = ({
+  handleDeleteProduct,
+  id,
+  dispatch,
+  invoiceState,
+}) => {
+  const [product, setProduct] = useState<ProductType>(
+    invoiceState.products[id as number] || ({} as ProductType)
+  );
+
+  console.log(product)
+
+  useEffect(() => {
+    const newProducts = invoiceState.products.filter(
+      (product: any, i: number) => i !== id
+    );
+    dispatch({ type: "products", payload: [...newProducts, product] });
+  }, [product.description, product.name, product.price, product.productType]);
+
   return (
     <tr className="text-sm font-medium text-[#84878B]  text-start">
       <td className="whitespace-nowrap px-3 py-2">
         {/* plane  */}
         <div className="px-5 py-4 rounded-xl border relative flex items-center w-full justify-between group border-[#DCDCDC]">
           {/*  value */}
-          <p className="text-[#84878B] text-sm ">Plane</p>
+          <p className="text-[#84878B] text-sm ">
+            {product.productType || "plane"}
+          </p>
 
           {/* arrow icon */}
           <Image
@@ -43,18 +71,56 @@ const ProductRow = () => {
 
             {/* options */}
             <div className="mt-5 space-y-5">
-              <button className="text-[#84878B] block text-lg">T2390</button>
-              <button className="text-[#84878B] block text-lg">T2390</button>
-              <button className="text-[#84878B] block text-lg">T2390</button>
-              <button className="text-[#84878B] block text-lg">T2390</button>
+              <button
+                onClick={() => {
+                  setProduct({ ...product, productType: "Halicopter" });
+                }}
+                className="text-[#84878B] block text-lg"
+              >
+                Halicopter
+              </button>
+              <button
+                onClick={() => {
+                  setProduct({ ...product, productType: "Drinks" });
+                }}
+                className="text-[#84878B] block text-lg"
+              >
+                Drinks
+              </button>
+              <button
+                onClick={() => {
+                  setProduct({ ...product, productType: "Flowers" });
+                }}
+                className="text-[#84878B] block text-lg"
+              >
+                Flowers
+              </button>
+              <button
+                onClick={() => {
+                  setProduct({ ...product, productType: "Private Jet" });
+                }}
+                className="text-[#84878B] block text-lg"
+              >
+                Private Jet
+              </button>
+              <button
+                onClick={() => {
+                  setProduct({ ...product, productType: "Airbus" });
+                }}
+                className="text-[#84878B] block text-lg"
+              >
+                Airbus
+              </button>
             </div>
           </div>
         </div>
       </td>
       <td className="whitespace-nowrap px-3 py-2">
-      <div className="px-5 py-4 rounded-xl border relative flex items-center w-full justify-between group border-[#DCDCDC]">
+        <div className="px-5 py-4 rounded-xl border relative flex items-center w-full justify-between group border-[#DCDCDC]">
           {/*  value */}
-          <p className="text-[#84878B] text-sm ">Falcon8X TBA/LTI</p>
+          <p className="text-[#84878B] text-sm ">{
+          product.name
+          }</p>
 
           {/* arrow icon */}
           <Image
@@ -86,22 +152,77 @@ const ProductRow = () => {
 
             {/* options */}
             <div className="mt-5 space-y-5">
-              <button className="text-[#84878B] block text-lg">Falcon8X TBA/LTI</button>
-              <button className="text-[#84878B] block text-lg">Falcon8X TBA/LTI</button>
-              <button className="text-[#84878B] block text-lg">Falcon8X TBA/LTI</button>
-              <button className="text-[#84878B] block text-lg">Falcon8X TBA/LTI</button>
+              <button
+                onClick={() => {
+                  setProduct({ ...product, name: "Falcon885X TBA/LTI" });
+                }}
+                className="text-[#84878B] block text-lg"
+              >
+                Falcon885X TBA/LTI
+              </button>
+              <button
+                onClick={() => {
+                  setProduct({ ...product, name: "Falcon8X TBA/LTI" });
+                }}
+                className="text-[#84878B] block text-lg"
+              >
+                Falcon8X TBA/LTI
+              </button>
+              <button
+                onClick={() => {
+                  setProduct({ ...product, name: "Falcon998X TBA/LTI" });
+                }}
+                className="text-[#84878B] block text-lg"
+              >
+                Falcon998X TBA/LTI
+              </button>
+              <button
+                onClick={() => {
+                  setProduct({ ...product, name: "Falcon1428X TBA/LTI" });
+                }}
+                className="text-[#84878B] block text-lg"
+              >
+                Falcon1428X TBA/LTI
+              </button>
+              <button
+                onClick={() => {
+                  setProduct({ ...product, name: "Falcon6558X TBA/LTI" });
+                }}
+                className="text-[#84878B] block text-lg"
+              >
+                Falcon6558X TBA/LTI
+              </button>
             </div>
           </div>
         </div>
       </td>
       <td className="whitespace-nowrap px-3 py-2">
-        <input type="text" name="description" className="px-5 py-4 rounded-xl border relative flex items-center w-full justify-between group border-[#DCDCDC] focus:outline-none" placeholder="Description" />
+        <input
+          type="text"
+          name="description"
+          onChange={(e) => {
+            setProduct({ ...product, description: e.target.value });
+          }}
+          className="px-5 py-4 rounded-xl border relative flex items-center w-full justify-between group border-[#DCDCDC] focus:outline-none"
+          placeholder="Description"
+        />
       </td>
       <td className="whitespace-nowrap px-3 py-2">{/* empty */}</td>
       <td className="whitespace-nowrap px-6 py-4 flex ic">
         <div className="flex gap-2">
-        <input type="text" name="total" className="px-5 py-4 rounded-xl border relative flex items-center w-full justify-between group border-[#DCDCDC] focus:outline-none" placeholder="total" />
-          <button className="bg-[#F36A6A33] rounded-md p-1">
+          <input
+            type="text"
+            name="total"
+            onChange={(e) => {
+              setProduct({ ...product, price: parseFloat(e.target.value) });
+            }}
+            className="px-5 py-4 rounded-xl border relative flex items-center w-full justify-between group border-[#DCDCDC] focus:outline-none"
+            placeholder="total"
+          />
+          <button
+            onClick={() => handleDeleteProduct(id)}
+            className="bg-[#F36A6A33] rounded-md p-1"
+          >
             <Image
               src={deleteIcon}
               width={44}
