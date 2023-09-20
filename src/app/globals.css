@@ -7,3 +7,8 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
 }
+
+.react-datepicker__day-name:first-child,
+.react-datepicker__day-name:last-child {
+  color: #f36a6a;
+}

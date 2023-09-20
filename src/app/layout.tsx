@@ -25,7 +25,7 @@ export default function RootLayout({
         <div className="flex gap-5">
           <Sidebar />
 
-          <main className="max-w-full overflow-x-auto">
+          <main className="w-full overflow-x-auto">
             {/* here is header come */}
             <Header />
             {children}

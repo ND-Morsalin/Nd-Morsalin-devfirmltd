@@ -4,10 +4,11 @@ import addIcon from "@/assets/icons/addIcon.svg";
 import editIcon from "@/assets/icons/editIcon.svg";
 import deleteIcon from "@/assets/icons/deleteIcon.svg";
 import TableHeader from "@/components/pages/invoices/tableheader/tableheader";
+import Link from "next/link";
 
 const Invoice = () => {
   return (
-    <div className="w-full">
+    <div className="w-full ">
       {/* page title */}
       <div className="flex items-center justify-between py-8">
         <div className="">
@@ -15,7 +16,10 @@ const Invoice = () => {
           <p className="">Invoices</p>
         </div>
         {/* add invoice button */}
-        <button className="bg-primary text-white text-lg font-semibold px-12 py-6 rounded-full flex items-center justify-center gap-[10px]">
+        <Link
+          href={"/invoices/new-invoice"}
+          className="bg-primary text-white text-lg font-semibold px-12 py-6 rounded-full flex items-center justify-center gap-[10px]"
+        >
           <Image
             src={addIcon}
             width={32}
@@ -24,18 +28,18 @@ const Invoice = () => {
             alt="add icon"
           />
           Add Invoice
-        </button>
+        </Link>
 
         {/* add invoice button end */}
       </div>
       {/* page title end */}
 
       {/* invoice table */}
-      <div className="w-full p-4 bg-white rounded-lg">
+      <div className="w-full bg-white rounded-lg">
         <div className=" overflow-x-auto  ">
           <div className="flex flex-col w-full py-10 bg-white rounded-lg">
             <div className="">
-              <div className="overflow-x-auto min-w-full py-2 sm:px-6 lg:px-8">
+              <div className="overflow-x-auto min-w-full py-2">
                 <div className="">
                   <table className="min-w-full overflow-auto font-medium ">
                     <TableHeader />
